@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: python-notes-redis
+    ports:
+      - "6379:6379"
+
+  api:
+    image: python-redis-notes-api:v1
+    container_name: python-notes-api
+    depends_on:
+      - redis
+    environment:
+      - PORT=8000
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    ports:
+      - "8000:8000"
